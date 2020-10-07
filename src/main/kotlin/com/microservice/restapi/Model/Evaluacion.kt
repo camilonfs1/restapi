@@ -7,8 +7,8 @@ import javax.persistence.*
 
 @Entity
 @Table (name = ("evaluacion").toString())
-data class Evaluacion(val dni: Int = 0, val nombre:String = "", val appellido:String = "", val fechaNac: LocalDate? =null) {
+data class Evaluacion(val id_estudiante: Int = 0, val tipo_repeticion:Int = 0, val nota:Int = 0, val fecha: LocalDate? =null) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id:Long = 0
+    var id_evaluacion:Long = 0
 }

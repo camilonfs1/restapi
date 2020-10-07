@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(Constants.URL_BASE_PERSONAS)
+@RequestMapping(Constants.URL_BASE_evaluaciones)
 class PersonaRestController {
 
     @Autowired
@@ -28,9 +28,9 @@ class PersonaRestController {
     }
 
     @GetMapping("/{id}")
-    fun load(@PathVariable("id") idPersona: Long): ResponseEntity<Any> {
+    fun load(@PathVariable("id_evaluacion") id_evaluacion: Long): ResponseEntity<Any> {
         return try {
-            ResponseEntity(evaluacionBusiness!!.load(idPersona), HttpStatus.OK)
+            ResponseEntity(evaluacionBusiness!!.load(id_evaluacion), HttpStatus.OK)
         } catch (e: BusinessException) {
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }catch (e: NotFoundException) {
@@ -43,7 +43,7 @@ class PersonaRestController {
         return try {
             evaluacionBusiness!!.save(evaluacion)
             val responseHeader = HttpHeaders()
-            responseHeader.set("location", Constants.URL_BASE_PERSONAS+"/"+evaluacion.id)
+            responseHeader.set("location", Constants.URL_BASE_evaluaciones+"/"+evaluacion.id_evaluacion)
             ResponseEntity(responseHeader,HttpStatus.CREATED)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -61,9 +61,9 @@ class PersonaRestController {
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable("id") idPersona: Long): ResponseEntity<Any>{
+    fun delete(@PathVariable("id_evaluacion") id_evaluacion: Long): ResponseEntity<Any>{
         return try{
-            evaluacionBusiness!!.remove(idPersona)
+            evaluacionBusiness!!.remove(id_evaluacion)
             ResponseEntity(HttpStatus.OK)
         }catch (e: BusinessException) {
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
