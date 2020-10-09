@@ -1,6 +1,6 @@
 package com.microservice.restapi.business
 
-import com.microservice.restapi.Model.Evaluacion
+import com.microservice.restapi.Model.Evaluation
 import com.microservice.restapi.dao.EvaluationRepository
 import com.microservice.restapi.exceptions.BusinessException
 import com.microservice.restapi.exceptions.NotFoundException
@@ -10,12 +10,12 @@ import java.lang.Exception
 import java.util.*
 
 @Service
-class EvaluacionBusiness : IEvaluacionBusiness {
+class EvaluationBusiness : IEvaluationBusiness {
 
     @Autowired
     val evaluacionRepository: EvaluationRepository? = null
 
-    override fun list(): List<Evaluacion> {
+    override fun list(): List<Evaluation> {
         try {
             return evaluacionRepository!!.findAll()
         } catch (e: Exception) {
@@ -24,44 +24,46 @@ class EvaluacionBusiness : IEvaluacionBusiness {
     }
 
     @Throws(BusinessException::class,NotFoundException::class)
-    override fun load(idEvaluacion: Long): Evaluacion {
-        val op: Optional<Evaluacion>
+    override fun load(idEvaluation: Long): Evaluation {
+        val op: Optional<Evaluation>
         try {
-            op = evaluacionRepository!!.findById(idEvaluacion)
+            op = evaluacionRepository!!.findById(idEvaluation)
         } catch (e: Exception) {
             throw BusinessException(e.message)
         }
         if (!op.isPresent) {
-            throw NotFoundException("No se encontro la evaluacion con id $idEvaluacion")
+            throw NotFoundException("No se encontro la evaluacion con id $idEvaluation")
         }
         return op.get()
     }
     @Throws(BusinessException::class)
-    override fun save(evaluacion: Evaluacion): Evaluacion {
+    override fun save(evaluation: Evaluation): Evaluation {
         try {
-            return evaluacionRepository!!.save(evaluacion)
+            return evaluacionRepository!!.save(evaluation)
         }catch (e:Exception){
             throw BusinessException(e.message)
         }
     }
 
     @Throws(BusinessException::class)
-    override fun remove(idEvaluacion: Long) {
-        val op: Optional<Evaluacion>
+    override fun remove(idEvaluation: Long) {
+        val op: Optional<Evaluation>
         try {
-            op = evaluacionRepository!!.findById(idEvaluacion)
+            op = evaluacionRepository!!.findById(idEvaluation)
         }catch (e:Exception){
             throw BusinessException(e.message)
         }
         if (!op.isPresent) {
-            throw NotFoundException("No se encontro la evaluacion con id $idEvaluacion")
+            throw NotFoundException("No se encontro la evaluacion con id $idEvaluation")
         }else{
             try {
-                evaluacionRepository!!.deleteById(idEvaluacion)
+                evaluacionRepository!!.deleteById(idEvaluation)
             }catch (e:Exception){
                 throw BusinessException(e.message)
             }
         }
     }
+
+
 
 }

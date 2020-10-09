@@ -1,9 +1,9 @@
 package com.microservice.restapi.dao
 
-import com.microservice.restapi.Model.Evaluacion
+import com.microservice.restapi.Model.Evaluation
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 
 @Repository
-interface EvaluationRepository: JpaRepository<Evaluacion,Long>
+interface EvaluationRepository: JpaRepository<Evaluation,Long>

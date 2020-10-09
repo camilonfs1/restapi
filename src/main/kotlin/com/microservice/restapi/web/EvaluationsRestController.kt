@@ -1,7 +1,7 @@
 package com.microservice.restapi.web
 
-import com.microservice.restapi.Model.Evaluacion
-import com.microservice.restapi.business.IEvaluacionBusiness
+import com.microservice.restapi.Model.Evaluation
+import com.microservice.restapi.business.IEvaluationBusiness
 import com.microservice.restapi.exceptions.BusinessException
 import com.microservice.restapi.exceptions.NotFoundException
 import com.microservice.restapi.utils.Constants
@@ -12,14 +12,14 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(Constants.URL_BASE_evaluaciones)
+@RequestMapping(Constants.URL_BASE_EVALUATION)
 class PersonaRestController {
 
     @Autowired
-    val evaluacionBusiness: IEvaluacionBusiness? = null
+    val evaluacionBusiness: IEvaluationBusiness? = null
 
     @GetMapping("")
-    fun list(): ResponseEntity<List<Evaluacion>> {
+    fun list(): ResponseEntity<List<Evaluation>> {
         return try {
             ResponseEntity(evaluacionBusiness!!.list(), HttpStatus.OK)
         } catch (e: Exception) {
@@ -28,9 +28,9 @@ class PersonaRestController {
     }
 
     @GetMapping("/{id}")
-    fun load(@PathVariable("id_evaluacion") id_evaluacion: Long): ResponseEntity<Any> {
+    fun load(@PathVariable("id") idEvaluation: Long): ResponseEntity<Any> {
         return try {
-            ResponseEntity(evaluacionBusiness!!.load(id_evaluacion), HttpStatus.OK)
+            ResponseEntity(evaluacionBusiness!!.load(idEvaluation), HttpStatus.OK)
         } catch (e: BusinessException) {
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }catch (e: NotFoundException) {
@@ -39,11 +39,11 @@ class PersonaRestController {
     }
 
     @PostMapping("")
-    fun insert(@RequestBody evaluacion: Evaluacion):ResponseEntity<Any>{
+    fun insert(@RequestBody evaluation: Evaluation):ResponseEntity<Any>{
         return try {
-            evaluacionBusiness!!.save(evaluacion)
+            evaluacionBusiness!!.save(evaluation)
             val responseHeader = HttpHeaders()
-            responseHeader.set("location", Constants.URL_BASE_evaluaciones+"/"+evaluacion.id_evaluacion)
+            responseHeader.set("location", Constants.URL_BASE_EVALUATION+"/"+evaluation.id)
             ResponseEntity(responseHeader,HttpStatus.CREATED)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -51,9 +51,9 @@ class PersonaRestController {
     }
 
     @PutMapping("")
-    fun update(@RequestBody evaluacion: Evaluacion): ResponseEntity<Any>{
+    fun update(@RequestBody evaluation: Evaluation): ResponseEntity<Any>{
         return try{
-            evaluacionBusiness!!.save(evaluacion)
+            evaluacionBusiness!!.save(evaluation)
             ResponseEntity(HttpStatus.OK)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -61,9 +61,9 @@ class PersonaRestController {
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable("id_evaluacion") id_evaluacion: Long): ResponseEntity<Any>{
+    fun delete(@PathVariable("id") idEvaluation: Long): ResponseEntity<Any>{
         return try{
-            evaluacionBusiness!!.remove(id_evaluacion)
+            evaluacionBusiness!!.remove(idEvaluation)
             ResponseEntity(HttpStatus.OK)
         }catch (e: BusinessException) {
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -71,4 +71,5 @@ class PersonaRestController {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
+
 }
