@@ -1,7 +1,9 @@
 package com.microservice.restapi.web
 
 import com.microservice.restapi.Model.Evaluation
+import com.microservice.restapi.Model.Quiz
 import com.microservice.restapi.business.IEvaluationBusiness
+import com.microservice.restapi.business.IQuizBusiness
 import com.microservice.restapi.exceptions.BusinessException
 import com.microservice.restapi.exceptions.NotFoundException
 import com.microservice.restapi.utils.Constants
@@ -12,25 +14,25 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(Constants.URL_BASE_EVALUATION)
-class EvaluationsRestController {
+@RequestMapping(Constants.URL_BASE_QUIZ)
+class QuizRestController {
 
     @Autowired
-    val evaluacionBusiness: IEvaluationBusiness? = null
+    val quizBusiness: IQuizBusiness? = null
 
     @GetMapping("")
-    fun list(): ResponseEntity<List<Evaluation>> {
+    fun list(): ResponseEntity<List<Quiz>> {
         return try {
-            ResponseEntity(evaluacionBusiness!!.list(), HttpStatus.OK)
+            ResponseEntity(quizBusiness!!.list(), HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
     @GetMapping("/{id}")
-    fun load(@PathVariable("id") idEvaluation: Long): ResponseEntity<Any> {
+    fun load(@PathVariable("id") idQuiz: Long): ResponseEntity<Any> {
         return try {
-            ResponseEntity(evaluacionBusiness!!.load(idEvaluation), HttpStatus.OK)
+            ResponseEntity(quizBusiness!!.load(idQuiz), HttpStatus.OK)
         } catch (e: BusinessException) {
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }catch (e: NotFoundException) {
@@ -39,11 +41,11 @@ class EvaluationsRestController {
     }
 
     @PostMapping("")
-    fun insert(@RequestBody evaluation: Evaluation):ResponseEntity<Any>{
+    fun insert(@RequestBody quiz: Quiz):ResponseEntity<Any>{
         return try {
-            evaluacionBusiness!!.save(evaluation)
+            quizBusiness!!.save(quiz)
             val responseHeader = HttpHeaders()
-            responseHeader.set("location", Constants.URL_BASE_EVALUATION+"/"+evaluation.id)
+            responseHeader.set("location", Constants.URL_BASE_QUIZ+"/"+quiz.id)
             ResponseEntity(responseHeader,HttpStatus.CREATED)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -51,9 +53,9 @@ class EvaluationsRestController {
     }
 
     @PutMapping("")
-    fun update(@RequestBody evaluation: Evaluation): ResponseEntity<Any>{
+    fun update(@RequestBody quiz: Quiz): ResponseEntity<Any>{
         return try{
-            evaluacionBusiness!!.save(evaluation)
+            quizBusiness!!.save(quiz)
             ResponseEntity(HttpStatus.OK)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -61,9 +63,9 @@ class EvaluationsRestController {
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable("id") idEvaluation: Long): ResponseEntity<Any>{
+    fun delete(@PathVariable("id") idQuiz: Long): ResponseEntity<Any>{
         return try{
-            evaluacionBusiness!!.remove(idEvaluation)
+            quizBusiness!!.remove(idQuiz)
             ResponseEntity(HttpStatus.OK)
         }catch (e: BusinessException) {
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -1,6 +1,6 @@
 package com.microservice.restapi
 
-import com.microservice.restapi.Model.*
+import com.microservice.restapi.Model.Evaluation
 import com.microservice.restapi.dao.EvaluationRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
