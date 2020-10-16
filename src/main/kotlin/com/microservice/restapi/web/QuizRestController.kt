@@ -41,22 +41,22 @@ class QuizRestController {
     }
 
     @PostMapping("")
-    fun insert(@RequestBody quiz: Quiz):ResponseEntity<Any>{
+    fun insert( @RequestBody quiz: Quiz):ResponseEntity<Any>{
         return try {
             quizBusiness!!.save(quiz)
             val responseHeader = HttpHeaders()
             responseHeader.set("location", Constants.URL_BASE_QUIZ+"/"+quiz.id)
-            ResponseEntity(responseHeader,HttpStatus.CREATED)
+            ResponseEntity(quizBusiness!!.load(quiz.id), HttpStatus.CREATED)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
-    @PutMapping("")
-    fun update(@RequestBody quiz: Quiz): ResponseEntity<Any>{
+    @PutMapping("/{id}")
+    fun update(@PathVariable("id") idQuiz: Long, @RequestBody quiz: Quiz): ResponseEntity<Any>{
         return try{
             quizBusiness!!.save(quiz)
-            ResponseEntity(HttpStatus.OK)
+            ResponseEntity(quizBusiness!!.load(idQuiz), HttpStatus.OK)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }

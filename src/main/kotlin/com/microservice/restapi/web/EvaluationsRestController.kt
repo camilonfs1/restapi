@@ -44,17 +44,17 @@ class EvaluationsRestController {
             evaluacionBusiness!!.save(evaluation)
             val responseHeader = HttpHeaders()
             responseHeader.set("location", Constants.URL_BASE_EVALUATION+"/"+evaluation.id)
-            ResponseEntity(responseHeader,HttpStatus.CREATED)
+            ResponseEntity(evaluacionBusiness!!.load(evaluation.id), HttpStatus.CREATED)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
-    @PutMapping("")
-    fun update(@RequestBody evaluation: Evaluation): ResponseEntity<Any>{
+    @PutMapping("/{id}")
+    fun update(@PathVariable("id") idEvaluation: Long, @RequestBody evaluation: Evaluation): ResponseEntity<Any>{
         return try{
             evaluacionBusiness!!.save(evaluation)
-            ResponseEntity(HttpStatus.OK)
+            ResponseEntity(evaluacionBusiness!!.load(idEvaluation), HttpStatus.OK)
         }catch (e: BusinessException){
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }

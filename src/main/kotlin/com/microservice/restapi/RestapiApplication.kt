@@ -14,8 +14,7 @@ class RestapiApplication:CommandLineRunner{
 	@Autowired
 	val evaluationRepository: EvaluationRepository? = null
 	override fun run(vararg args: String?) {
-		val formatter =  DateTimeFormatter.ofPattern("MM-dd-yyyy")
-		val evaluation1 = Evaluation(123456,"3.2","tarea", LocalDate.parse("10-02-2055",formatter))
+		val evaluation1 = Evaluation(123456,"3.2","tarea", "10-02-2055")
 
 		evaluationRepository!!.save(evaluation1)
 	}
