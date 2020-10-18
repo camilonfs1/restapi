@@ -23,7 +23,7 @@ class EvaluationBusiness : IEvaluationBusiness {
         }
     }
 
-    @Throws(BusinessException::class,NotFoundException::class)
+    @Throws(BusinessException::class, NotFoundException::class)
     override fun load(idEvaluation: Long): Evaluation {
         val op: Optional<Evaluation>
         try {
@@ -36,11 +36,21 @@ class EvaluationBusiness : IEvaluationBusiness {
         }
         return op.get()
     }
+
+    @Throws(BusinessException::class, NotFoundException::class)
+    override fun load_student_eva(student: String): List<Evaluation> {
+        try {
+            return  (evaluacionRepository!!.evaluationbyStudent(student) as List<Evaluation>?)!!
+        } catch (e: Exception) {
+            throw BusinessException(e.message)
+        }
+    }
+
     @Throws(BusinessException::class)
     override fun save(evaluation: Evaluation): Evaluation {
         try {
             return evaluacionRepository!!.save(evaluation)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             throw BusinessException(e.message)
         }
     }
@@ -50,20 +60,19 @@ class EvaluationBusiness : IEvaluationBusiness {
         val op: Optional<Evaluation>
         try {
             op = evaluacionRepository!!.findById(idEvaluation)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             throw BusinessException(e.message)
         }
         if (!op.isPresent) {
             throw NotFoundException("No se encontro la evaluacion con id $idEvaluation")
-        }else{
+        } else {
             try {
                 evaluacionRepository!!.deleteById(idEvaluation)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 throw BusinessException(e.message)
             }
         }
     }
-
 
 
 }

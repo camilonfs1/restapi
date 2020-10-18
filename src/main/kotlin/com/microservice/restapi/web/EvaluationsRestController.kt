@@ -27,10 +27,20 @@ class EvaluationsRestController {
         }
     }
 
-    @GetMapping("/{id}")
-    fun load(@PathVariable("id") idEvaluation: Long): ResponseEntity<Any> {
+   @GetMapping("/{id}")
+    fun load(@PathVariable("id") id_evaluation: Long): ResponseEntity<Any> {
         return try {
-            ResponseEntity(evaluacionBusiness!!.load(idEvaluation), HttpStatus.OK)
+            ResponseEntity(evaluacionBusiness!!.load(id_evaluation), HttpStatus.OK)
+        } catch (e: BusinessException) {
+            ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        }catch (e: NotFoundException) {
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
+    @GetMapping("by/{student}")
+    fun loadbystudent(@PathVariable("student") student: String): ResponseEntity<List<Evaluation>>  {
+        return try {
+            ResponseEntity(evaluacionBusiness!!.load_student_eva(student), HttpStatus.OK)
         } catch (e: BusinessException) {
             ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
         }catch (e: NotFoundException) {

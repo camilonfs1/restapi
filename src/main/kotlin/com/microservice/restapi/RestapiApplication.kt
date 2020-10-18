@@ -14,7 +14,7 @@ class RestapiApplication:CommandLineRunner{
 	@Autowired
 	val evaluationRepository: EvaluationRepository? = null
 	override fun run(vararg args: String?) {
-		val evaluation1 = Evaluation(123456,"3.2","tarea", "10-02-2055")
+		val evaluation1 = Evaluation("123456",3.2F,"tarea", "10-02-2055")
 
 		evaluationRepository!!.save(evaluation1)
 	}
